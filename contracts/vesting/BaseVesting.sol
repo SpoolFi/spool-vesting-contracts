@@ -33,7 +33,7 @@ contract BaseVesting is SpoolOwnable, IBaseVesting {
     uint256 public end;
 
     /// @notice total amount of SPOOL token vested
-    int192 public override total;
+    uint256 public override total;
 
     /// @notice map of member to Vest struct (see IBaseVesting)
     mapping(address => Vest) public userVest;
@@ -115,7 +115,7 @@ contract BaseVesting is SpoolOwnable, IBaseVesting {
      * - owner has given allowance for "total" to this contract
      */
     function begin() external override onlyOwner hasStarted(false) {
-        spoolToken.safeTransferFrom(msg.sender, address(this), uint192(total));
+        spoolToken.safeTransferFrom(msg.sender, address(this), total);
 
         start = block.timestamp;
         end = block.timestamp + vestingDuration;
@@ -225,7 +225,13 @@ contract BaseVesting is SpoolOwnable, IBaseVesting {
         for (uint i = 0; i < members.length; i++) {
             totalDiff += _setVest(members[i], amounts[i]);
         }
-        total += totalDiff;
+
+        // if the difference from the previous totals for these members is less than zero, subtract from total.
+        if(totalDiff < 0) {
+            total -= abs(totalDiff);
+        } else {
+            total += abs(totalDiff);
+        }
     }
 
     /**
@@ -342,6 +348,19 @@ contract BaseVesting is SpoolOwnable, IBaseVesting {
             check ? "BaseVesting::_checkStarted: Vesting hasn't started yet" 
                    : "BaseVesting::_checkStarted: Vesting has already started"
         );
+    }
+
+    /* ========== HELPERS ========== */
+    
+    /** 
+     * @notice get absolute value of an int192 value
+     *
+     * @param a signed integer to get absolute value of
+     *
+     * @return absolute value of input
+     */
+    function abs(int192 a) internal pure returns (uint192) {
+        return uint192(a < 0 ? -a : a);
     }
 
     /* ========== MODIFIERS ========== */

@@ -24,7 +24,7 @@ function begin() external nonpayable
 ### total
 
 ```solidity
-function total() external view returns (int192)
+function total() external view returns (uint256)
 ```
 
 
@@ -36,7 +36,7 @@ function total() external view returns (int192)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | int192 | undefined
+| _0 | uint256 | undefined
 
 
 

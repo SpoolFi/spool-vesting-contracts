@@ -31,7 +31,7 @@ struct Member {
 interface IBaseVesting {
     /* ========== FUNCTIONS ========== */
 
-    function total() external view returns (int192);
+    function total() external view returns (uint256);
 
     function begin() external;
 

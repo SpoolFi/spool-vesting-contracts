@@ -78,9 +78,9 @@ Returns the amount a user can claim at a given point in time.
 function setVests(address[] members, uint192[] amounts) external nonpayable
 ```
 
-Allows vests to be set once.
+Allows vests to be set. 
 
-*internally calls _setVests after setting the voSPOOL contract address.  Requirements: - the caller must be the owner*
+*internally calls _setVests function on BaseVesting.                                                                                                     Can be called an arbitrary number of times before `begin()` is called  on the base contract.                                                 Requirements: - the caller must be the owner*
 
 #### Parameters
 
@@ -126,7 +126,7 @@ timestamp of vesting start
 ### total
 
 ```solidity
-function total() external view returns (int192)
+function total() external view returns (uint256)
 ```
 
 total amount of SPOOL token vested
@@ -138,7 +138,7 @@ total amount of SPOOL token vested
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | int192 | undefined
+| _0 | uint256 | undefined
 
 ### transferVest
 

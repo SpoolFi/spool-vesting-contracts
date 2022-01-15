@@ -109,7 +109,7 @@ timestamp of vesting start
 ### total
 
 ```solidity
-function total() external view returns (int192)
+function total() external view returns (uint256)
 ```
 
 total amount of SPOOL token vested
@@ -121,7 +121,7 @@ total amount of SPOOL token vested
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | int192 | undefined
+| _0 | uint256 | undefined
 
 ### transferVest
 

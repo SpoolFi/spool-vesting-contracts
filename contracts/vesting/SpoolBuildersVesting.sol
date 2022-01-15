@@ -26,11 +26,14 @@ contract SpoolBuildersVesting is BaseVesting, ISpoolBuildersVesting {
     {}
 
     /**
-     * @notice Allows vests to be set once.
+     * @notice Allows vests to be set. 
      *
      * @dev
-     * internally calls _setVests function on BaseVesting
-     * 
+     * internally calls _setVests function on BaseVesting.
+     *
+     * Can be called an arbitrary number of times before `begin()` is successfully 
+     * called on the base contract.
+     *
      * Requirements:
      *
      * - the caller must be the owner

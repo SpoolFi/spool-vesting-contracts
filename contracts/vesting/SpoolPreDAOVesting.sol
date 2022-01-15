@@ -30,10 +30,13 @@ contract SpoolPreDAOVesting is BaseVesting, ISpoolPreDAOVesting {
     }
 
     /**
-     * @notice Allows vests to be set once.
+     * @notice Allows vests to be set. 
      *
      * @dev
-     * internally calls _setVests after setting the voSPOOL contract address.
+     * internally calls _setVests function on BaseVesting.                        
+     *                                                                            
+     * Can be called an arbitrary number of times before `begin()` is called 
+     * on the base contract.                                               
      * 
      * Requirements:
      *
