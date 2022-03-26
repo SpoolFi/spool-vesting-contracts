@@ -1,14 +1,12 @@
 import { ethers } from "hardhat";
 
 // types
-import { VoSPOOL } from "../../build/types/VoSPOOL";
 import { MockToken } from "../../build/types/MockToken";
 import { SpoolPreDAOVesting } from "../../build/types/SpoolPreDAOVesting";
 import { SpoolBuildersVesting } from "../../build/types/SpoolBuildersVesting";
 
 // factories
 import { ISpoolOwner__factory } from "../../build/types/factories/ISpoolOwner__factory";
-import { VoSPOOL__factory } from "../../build/types/factories/VoSPOOL__factory";
 import { MockToken__factory } from "../../build/types/factories/MockToken__factory";
 import { SpoolPreDAOVesting__factory } from "../../build/types/factories/SpoolPreDAOVesting__factory";
 import { SpoolBuildersVesting__factory } from "../../build/types/factories/SpoolBuildersVesting__factory";
@@ -29,7 +27,7 @@ export interface AccountsFixture {
 
 export interface SPOOLFixture {
   token: MockToken;
-  voSPOOL: VoSPOOL;
+  voSPOOL: MockToken;
   spoolPreDAOVesting: SpoolPreDAOVesting;
   spoolBuildersVesting: SpoolBuildersVesting;
   mockSpoolOwner: MockContract;
@@ -68,7 +66,7 @@ async function SPOOLFixture(
     await new SpoolPreDAOVesting__factory().connect(accounts.administrator);
   const spoolBuildersVestingFactory =
     await new SpoolBuildersVesting__factory().connect(accounts.administrator);
-  const VoSPOOLFactory = await new VoSPOOL__factory().connect(
+  const MockTokenFactory = await new MockToken__factory().connect(
     accounts.administrator
   );
 
@@ -83,7 +81,7 @@ async function SPOOLFixture(
     .returns(true);
 
   // Deploy Voting SPOOL
-  const voSPOOL = await VoSPOOLFactory.deploy(mockSpoolOwner.address);
+  const voSPOOL = await MockTokenFactory.deploy("voSPOOL", "Spool DAO Voting Token", 18);
 
   // Deploy SPOOL DAO Vesting
   const spoolPreDAOVesting = await SpoolPreDAOVestingFactory.deploy(
@@ -99,9 +97,6 @@ async function SPOOLFixture(
     token.address,
     BUILDERS_VESTING_DURATION
   );
-
-  // set DAO Vesting contract as authorized on voSPOOL
-  await voSPOOL.setAuthorized(spoolPreDAOVesting.address, true);
 
   return {
     token,
